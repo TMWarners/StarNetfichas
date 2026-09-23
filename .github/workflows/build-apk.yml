@@ -1,7 +1,9 @@
 name: Compilar APK StarNet
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -25,11 +27,13 @@ jobs:
       - name: Descomprimir proyecto
         run: |
           unzip -q StarNetFichas-v1.zip
+          echo "Contenido del proyecto:"
           ls -la StarNetFichas
 
       - name: Compilar APK
         working-directory: StarNetFichas
-        run: gradle assembleDebug --no-daemon
+        run: |
+          gradle assembleDebug --no-daemon
 
       - name: Guardar APK
         uses: actions/upload-artifact@v4
